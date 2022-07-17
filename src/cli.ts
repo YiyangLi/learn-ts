@@ -6,7 +6,7 @@ import {
   sendConcurrentRequests,
   sendRequestsInBatches,
   sendSequentialRequests,
-} from './doSomeStuff';
+} from './main';
 import {getNumberOrElse} from './util';
 
 dotenv.config();
