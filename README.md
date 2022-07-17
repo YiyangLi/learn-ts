@@ -3,23 +3,25 @@ The simple app is to continue the [learn-pubsub](https://github.com/YiyangLi/lea
 
 ## Roadmaps
 ### V0
-[ ] Send an HTTP request to the publish endpoint and print if error. If not specified, the message is randomly generated. 
-[ ] Send messages sequentially, concurrently. 
-[ ] Send messages in batches, where all batches are sent concurrently, and each element in a is sent sequentially. i.e. The total batch size is the max concurrency. 
-[ ] Read the base_url for the pubsub app from `.env` or environment variables. 
-[ ] Wrap the app in a command line, set the message and the message numbers through parameters. If not specified, read `.env` or environment variables. 
+
+- [x] Send an HTTP request to the publish endpoint and print if error. If not specified, the message is randomly generated. 
+- [x] Send messages sequentially, concurrently. 
+- [x] Send messages in batches, where all batches are sent concurrently, and each element in a is sent sequentially. i.e. The total batch size is the max concurrency. 
+- [x] Read the base_url for the pubsub app from `.env` or environment variables. 
+- [x] Wrap the app in a command line, set the message and the message numbers through parameters. If not specified, read `.env` or environment variables. 
 
 ### V1
-[ ] Add jest and nock for testing
-[ ] Support different log levels
+- [ ] Add jest and nock for testing
+- [ ] Support different log levels
+- [ ] Log messages out but not send messages to a server
 
 ### V2
-[ ] If the API (in the pubsub app) accepts a batch of events, cache events in memory first and send a batch.
-[ ] Dockerize the project, try to keep the docker image small and the container lightweight. 
+- [ ] If the API (in the pubsub app) accepts a batch of events, cache events in memory first and send a batch.
+- [ ] Dockerize the project, try to keep the docker image small and the container lightweight. 
 
 ### V3
-[ ] Put it under k8s (minikube), and draft the kustomization plan. 
-[ ] Draft the terraform for EKS.
+- [ ] Put it under k8s (minikube), and draft the kustomization plan. 
+- [ ] Draft the terraform for EKS.
 
 ## Run it without docker
 Build it
