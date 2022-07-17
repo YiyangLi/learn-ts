@@ -5,7 +5,7 @@
     "outDir": "./build",
     "esModuleInterop": true,
     "lib": [
-      "ES2020.Promise",
+      "es2019",
     ]
   },
   "include": [
