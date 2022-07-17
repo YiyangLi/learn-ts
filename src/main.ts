@@ -6,6 +6,16 @@ import {sleep, generateSequence, generateBatches} from './util';
 dotenv.config();
 const baseUrl: string = process.env.BASE_URL || 'http://localhost:3000';
 
+/*
+ * Send one message to `{base_url}/publish`, the `base_url` is read from environment variable BASE_URL
+ * To spin up the server, use [pubsubyy](https://github.com/YiyangLi/learn-pubsub) after installation:
+ *    `pubsubyy start`
+ * Or you could comment out the part and only print the message to stdout
+ * To simulate a latency, the process will sleep 1 second before sending the message.
+ *
+ * * message: the message you want to send, if not defined, it will be a random UUID
+ * * return 'okay' for 2XX status, and '{status}:{reason}' for others
+ */
 async function sendOneMessage(message: string): Promise<string> {
   await sleep(1000);
   const msg = message || randomUUID();
@@ -31,6 +41,14 @@ async function sendOneMessage(message: string): Promise<string> {
   }
 }
 
+/*
+ * Send multiple messages to `{base_url}/publish` sequentially
+ * To simulate a latency, the process will sleep 1 second before sending each message.
+ *
+ * * size: the size of messages you want to send
+ * * message: the message you want to send, if not defined, it will be a random UUID
+ * * return a list of responses
+ */
 export async function sendSequentialRequests(
   size: number,
   message = '',
@@ -44,6 +62,14 @@ export async function sendSequentialRequests(
   }, Promise.resolve(new Array<string>()));
 }
 
+/*
+ * Send multiple messages to `{base_url}/publish` concurrently
+ * To simulate a latency, the process will sleep 1 second before sending each message.
+ *
+ * * size: the size of messages you want to send, which is also the concurrency number
+ * * message: the message you want to send, if not defined, it will be a random UUID
+ * * return a list of responses
+ */
 export async function sendConcurrentRequests(
   size: number,
   message = '',
@@ -57,6 +83,16 @@ export async function sendConcurrentRequests(
   );
 }
 
+/*
+ * Send multiple messages to `{base_url}/publish` concurrently, but in batches
+ * There might be a limitation on the concurrency, put messages in batches.
+ * Each batch is a "thread", and messages in a batch are sent sequentially.
+ *
+ * * totalSize: the size of messages you want to send
+ * * totalBatch: the size of batches, which is also the concurrency number
+ * * message: the message you want to send, if not defined, it will be a random UUID
+ * * return a list of responses
+ */
 export async function sendRequestsInBatches(
   totalSize: number,
   totalBatch: number,
