@@ -8,6 +8,7 @@ import {
   sendSequentialRequests,
 } from './main';
 import {getNumberOrElse} from './util';
+import logger from './logger';
 
 dotenv.config();
 const message: string = process.env.MESSAGE || '';
@@ -22,20 +23,20 @@ yargs(hideBin(process.argv))
     async argv => {
       let responses: string[];
       if (argv.seq) {
-        console.log('send message sequentially');
+        logger.debug('send message sequentially');
         responses = await sendSequentialRequests(
           argv.size as number,
           argv.message as string
         );
       } else {
         if (argv.concurrency === -1) {
-          console.log('send messages concurrently');
+          logger.debug('send messages concurrently');
           responses = await sendConcurrentRequests(
             argv.size as number,
             argv.message as string
           );
         } else {
-          console.log(
+          logger.debug(
             `send messages concurrently, max concurrency: ${argv.concurrency}`
           );
           responses = await sendRequestsInBatches(
@@ -46,7 +47,7 @@ yargs(hideBin(process.argv))
         }
       }
       if (argv.log) {
-        responses.forEach(r => console.log(r));
+        responses.forEach(r => logger.info(r));
       }
     }
   )

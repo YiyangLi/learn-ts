@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import {randomUUID} from 'crypto';
 import dotenv from 'dotenv';
 import {sleep, generateSequence, generateBatches} from './util';
+import logger from './logger';
 
 dotenv.config();
 const baseUrl: string = process.env.BASE_URL || 'http://localhost:3000';
@@ -16,13 +17,14 @@ const baseUrl: string = process.env.BASE_URL || 'http://localhost:3000';
  * * message: the message you want to send, if not defined, it will be a random UUID
  * * return 'okay' for 2XX status, and '{status}:{reason}' for others
  */
-async function sendOneMessage(message: string): Promise<string> {
-  await sleep(1000);
-  const msg = message || randomUUID();
-  //
-  // console.log(`sent ${msg}`);
-  // return 'okay';
-  // uncomment above and comment out below if you don't want a server;
+export async function sendOneMessage(message?: string): Promise<string> {
+  await sleep();
+  const useMock: boolean =
+    (process.env.USE_MOCK || '').toLowerCase() === 'true';
+  if (useMock) {
+    logger.info(`sent ${message}`);
+    return 'okay';
+  }
   const config = {
     method: 'post',
     headers: {
@@ -30,14 +32,15 @@ async function sendOneMessage(message: string): Promise<string> {
     },
     body: JSON.stringify({
       topic: 'test',
-      message: msg,
+      message: message || randomUUID(),
     }),
   };
   const response = await fetch(`${baseUrl}/publish`, config);
   if (response.status >= 200 && response.status < 300) {
     return 'okay';
   } else {
-    return `${response.status}: ${JSON.stringify(response.json())}`;
+    const json = await response.json();
+    return `${response.status}: ${JSON.stringify(json)}`;
   }
 }
 

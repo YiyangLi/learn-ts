@@ -16,7 +16,7 @@ describe('generateSequence', () => {
 });
 
 it('sleep', done => {
-  sleep(1000).then(done);
+  sleep().then(done);
 });
 
 describe('generateBatches', () => {

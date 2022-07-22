@@ -1,8 +1,9 @@
 /*
- * A Promise that is always resolved after n milliseconds
+ * A Promise that is always resolved after n milliseconds, n comes from the environment variable
  */
-export async function sleep(n: number): Promise<void> {
-  return new Promise(res => setTimeout(res, n));
+const sleepTime: number = getNumberOrElse(process.env.SLEEP_TIME, 1000);
+export async function sleep(): Promise<void> {
+  return new Promise(res => setTimeout(res, sleepTime));
 }
 
 /*
