@@ -5,8 +5,9 @@
     "outDir": "./build",
     "esModuleInterop": true,
     "lib": [
-      "es2019",
-    ]
+      "es2018"
+    ],
+    "target": "es2018"
   },
   "include": [
     "src/**/*.ts",

@@ -41,7 +41,10 @@ describe('verify', () => {
 
     it('should send a randomly-generated message to base_url/publish', async () => {
       body.message = 'random';
-      crypto.randomUUID = jest.fn(() => body.message);
+      crypto.randomUUID = jest.fn(
+        () =>
+          body.message as `${string}-${string}-${string}-${string}-${string}`
+      );
       nock('https://test.com').post('/publish', body).reply(200, {});
 
       const response = await sendOneMessage();
